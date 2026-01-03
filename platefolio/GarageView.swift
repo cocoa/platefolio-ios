@@ -1,7 +1,10 @@
 import SwiftUI
+import SwiftData
+import UIKit
 
 struct GarageView: View {
-    @StateObject private var store = PlateStoreHolder.shared.store
+    @Query(sort: \PlatePostEntity.createdAt, order: .reverse)
+    private var posts: [PlatePostEntity]
 
     private let columns = [
         GridItem(.flexible(), spacing: 12),
@@ -12,8 +15,8 @@ struct GarageView: View {
         NavigationStack {
             ScrollView {
                 LazyVGrid(columns: columns, spacing: 12) {
-                    ForEach(store.myGarage) { post in
-                        GarageCard(post: post)
+                    ForEach(posts, id: \.id) { post in
+                        GarageCardEntity(post: post)
                     }
                 }
                 .padding()
@@ -23,8 +26,8 @@ struct GarageView: View {
     }
 }
 
-private struct GarageCard: View {
-    let post: PlatePost
+private struct GarageCardEntity: View {
+    let post: PlatePostEntity
 
     var uiImage: UIImage? {
         guard let data = post.imageData else { return nil }
@@ -48,7 +51,6 @@ private struct GarageCard: View {
             .frame(height: 140)
             .clipped()
 
-            // Plate strip
             Text(post.plateDisplay)
                 .font(.headline)
                 .frame(maxWidth: .infinity)
@@ -64,9 +66,7 @@ private struct GarageCard: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(10)
             } else {
-                // keep card heights consistent
-                Spacer(minLength: 10)
-                    .frame(height: 10)
+                Spacer(minLength: 10).frame(height: 10)
             }
         }
         .clipShape(RoundedRectangle(cornerRadius: 16))
@@ -76,3 +76,7 @@ private struct GarageCard: View {
         )
     }
 }
+
+
+
+

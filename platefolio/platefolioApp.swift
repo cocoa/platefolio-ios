@@ -1,10 +1,15 @@
 import SwiftUI
+import SwiftData
 
 @main
-struct platefolioApp: App {
+struct PlatefolioApp: App {
     var body: some Scene {
         WindowGroup {
             RootView()
         }
+        .modelContainer(for: PlatePostEntity.self)
     }
 }
+
+
+

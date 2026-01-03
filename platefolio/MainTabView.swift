@@ -12,6 +12,9 @@ struct MainTabView: View {
             CommunityView()
                 .tabItem { Label("Community", systemImage: "globe") }
 
+            StatsView()
+                .tabItem { Label("Profile", systemImage: "person.circle") }
+            
             SettingsView()
                 .tabItem { Label("Settings", systemImage: "gear") }
         }
